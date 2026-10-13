@@ -265,13 +265,27 @@ function browserPolyfills() {
       return builtinAliases[source] ?? null;
     },
     transform(code: string, id: string) {
-      // Skip node_modules except for specific ones that need polyfills
-      if (id.includes('node_modules')) {
-        // Only inject polyfills for path-browserify and other packages that need them
-        if (!id.includes('path-browserify')) {
+      // Vite and React Router generate virtual/internal modules whose contents
+      // must not be modified. Injecting imports into them can break the bundler
+      // or trigger startup errors even when the module mentions `process`.
+      const moduleId = id.split('?')[0].replaceAll('\\', '/');
+      if (
+        moduleId.includes('\\0') ||
+        moduleId.startsWith('virtual:') ||
+        moduleId.startsWith('/@id/') ||
+        moduleId.startsWith('/@vite/') ||
+        moduleId.includes('/node_modules/.vite/') ||
+        moduleId.includes('/vite/dist/')
+      ) {
+        return null;
+      }
+
+      // Skip dependencies except the known browser package needing polyfills.
+      if (moduleId.includes('/node_modules/')) {
+        if (!moduleId.includes('/path-browserify/')) {
           return null;
         }
-      } else if (!/\.[cm]?[jt]sx?$/.test(id.split('?')[0])) {
+      } else if (!/\.[cm]?[jt]sx?$/.test(moduleId)) {
         return null;
       }
 
