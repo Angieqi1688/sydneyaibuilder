@@ -7,7 +7,7 @@ import { FirstRunOnboarding } from '~/components/onboarding/FirstRunOnboarding';
 import BackgroundRays from '~/components/ui/BackgroundRays';
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Bolt' }, { name: 'description', content: 'Talk with Bolt, an AI assistant from StackBlitz' }];
+  return [{ title: 'Sydney AI Builder' }, { name: 'description', content: 'Build websites and apps with Sydney AI Builder.' }];
 };
 
 export const loader = () => Response.json({});
