@@ -8,5 +8,6 @@
     "enabled": true
   },
   "upload_source_maps": true,
-  "previews": {}
+  "previews": {},
+  "preview_urls": true
 }
