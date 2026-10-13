@@ -270,7 +270,7 @@ function browserPolyfills() {
       // or trigger startup errors even when the module mentions `process`.
       const moduleId = id.split('?')[0].replaceAll('\\', '/');
       if (
-        moduleId.includes('\\0') ||
+        moduleId.charCodeAt(0) === 0 ||
         moduleId.startsWith('virtual:') ||
         moduleId.startsWith('/@id/') ||
         moduleId.startsWith('/@vite/') ||
